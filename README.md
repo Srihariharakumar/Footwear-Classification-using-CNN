@@ -1,61 +1,49 @@
-# Footwear-Classification-using-CNN
-This project implements a Convolutional Neural Network (CNN) to classify real-life footwear images into three categories:
+# CNN Real-Life Footwear Classification
 
- Shoes
-
- Sneakers
-
- Slippers
+This project implements a **Convolutional Neural Network (CNN)** to classify real-life footwear images into three categories:
+- Shoes
+- Sneakers
+- Slippers
 
 The dataset was created using images captured with a mobile phone, ensuring real-world applicability.
-Dataset
 
-Total Images: 90 (30 per class)
+---
 
-Structure:
-Footwear_data/
- ├── Shoes/
- │    ├── shoe1.jpg
- │    ├── shoe2.png
- │    └── ...
- ├── Sneakers/
- │    ├── sneaker1.jpg
- │    ├── sneaker2.png
- │    └── ...
- ├── Slippers/
-      ├── slipper1.jpg
-      ├── slipper2.png
-      └── ...
-Requirements
+## Dataset
+- Total Images: **90** (30 per class)  
+- Classes: `Shoes`, `Sneakers`, `Slippers`
 
-Install required libraries before running:
-pip install tensorflow matplotlib numpy
+Folder structure:
+CNN_realife/
+ - Shoes/shoe1.jpg/shoe2.png...
+ - Sneakers/sneaker1.jpg/sneaker2.png...
+ - Slippers/slipper1.jpg/slipper2.png...
 
-Project Workflow
+## Project Workflow
 
-Data Preprocessing
+## 1. Data Preprocessing
 
 Images resized to 128x128
 
-Normalization (rescale=1./255)
+Normalized pixel values (rescale=1./255)
 
 Data Augmentation (rotation, zoom, horizontal flip)
 
 Train/Validation Split = 80/20
 
-CNN Architecture
+## 2.CNN Model Architecture
 
 Convolutional Layers: (32, 64, 128 filters)
 
-MaxPooling layers
+MaxPooling layers after each convolution
 
-Fully Connected Dense layer (128 neurons, ReLU)
+Flatten → Dense(128, ReLU)
 
-Dropout for regularization
+Dropout(0.5) for regularization
 
-Output Layer: 3 neurons (Softmax)
+Output Layer: Dense(3, Softmax)
 
-Training
+## 3.Training
 
 Optimizer: Adam
 
@@ -63,7 +51,22 @@ Loss: Categorical Crossentropy
 
 Epochs: 20
 
-Results
+## Results
 
-Model trained successfully with increasing accuracy.
-Final Validation Accuracy: 93.75%
+ - The model was successfully trained with the accuracy of 93.5%
+
+## Prediction Example
+
+Use the trained model to predict any new image:
+
+from tensorflow.keras.preprocessing import image
+import numpy as np
+img_path = "CNN_realife/Sneakers/sneaker1.jpg"  
+img = image.load_img(img_path, target_size=(128,128))
+img_array = image.img_to_array(img) / 255.0
+img_array = np.expand_dims(img_array, axis=0)
+prediction = model.predict(img_array)
+class_labels = list(train_data.class_indices.keys())
+print("Predicted Class:", class_labels[np.argmax(prediction)])
+model.save("cnn_shoe_classifier.h5")
+
